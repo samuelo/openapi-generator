@@ -581,7 +581,7 @@ public class ApiClient extends JavaTimeFormatter {
     public String expandPath(String pathTemplate, Map<String, Object> variables) {
         // disable default URL encoding 
         DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
-        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
         final RestTemplate restTemplate = new RestTemplate();
         restTemplate.setUriTemplateHandler(uriBuilderFactory);
 
@@ -614,8 +614,7 @@ public class ApiClient extends JavaTimeFormatter {
                         queryBuilder.append(encodedName);
                         if (value != null) {
                             String templatizedKey = encodedName + valueItemCounter++;
-                            final String encodedValue = URLEncoder.encode(value.toString(), "UTF-8");
-                            uriParams.put(templatizedKey, encodedValue);
+                            uriParams.put(templatizedKey, value.toString());
                             queryBuilder.append('=').append("{").append(templatizedKey).append("}");
                         }
                     }
